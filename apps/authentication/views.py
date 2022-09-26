@@ -7,6 +7,7 @@ Copyright (c) 2019 - present AppSeed.us
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm, SignUpForm
+from django.http import HttpResponse
 from core.settings import GITHUB_AUTH
 
 def login_view(request):
@@ -22,7 +23,14 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect("/")
+
+                if request.user.is_staff or request.user.is_superuser:
+                    return redirect("/")
+                else:
+                    if user.groups.all()[0].id == 1:
+                        return redirect('index_technical')
+                    elif user.groups.all()[0].id == 2:
+                        return redirect('index_engineer')
             else:
                 msg = 'Invalid credentials'
         else:

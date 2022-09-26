@@ -42,3 +42,43 @@ def pages(request):
     except:
         html_template = loader.get_template('home/page-500.html')
         return HttpResponse(html_template.render(context, request))
+
+
+@login_required(login_url='/login/')
+def index_technical(request):
+    context = {}
+
+    html_template = loader.get_template('home/index_technical.html')
+    try:
+        if request.method == 'GET':
+            return HttpResponse(html_template.render(context, request))
+        else:
+            pass
+
+    except template.TemplateDoesNotExist:
+        html_template = loader.get_template('home/page-404.html')
+        return HttpResponse(html_template.render(context, request))
+
+    except:
+        html_template = loader.get_template('home/page-500.html')
+        return HttpResponse(html_template.render(context, request))
+
+
+@login_required(login_url='/login/')
+def index_engineer(request):
+    context = {}
+
+    html_template = loader.get_template('home/index_engineer.html')
+    try:
+        if request.method == 'GET':
+            return HttpResponse(html_template.render(context, request))
+        else:
+            pass
+    
+    except template.TemplateDoesNotExist:
+        html_template = loader.get_template('home/page-404.html')
+        return HttpResponse(html_template.render(context, request))
+
+    except:
+        html_template = loader.get_template('home/page-500.html')
+        return HttpResponse(html_template.render(context, request))
